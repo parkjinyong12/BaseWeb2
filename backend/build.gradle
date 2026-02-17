@@ -94,6 +94,7 @@ tasks.named('test') {
 
 springBoot {
     buildInfo()
+    mainClass = 'com.example.baseweb.BasewebBackendApplication'
 }
 
 bootWar {
