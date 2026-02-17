@@ -4,3 +4,20 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+security:
+  jwt:
+    secret: test-secret-key-test-secret-key-123456
+    access-token-validity-seconds: 900
+    refresh-token-validity-seconds: 1209600
+
+app:
+  auth:
+    cookie:
+      secure: false
+      same-site: Lax
+      domain:
+      refresh-max-age-seconds: 1209600
