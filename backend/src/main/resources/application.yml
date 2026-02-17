@@ -25,7 +25,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info
   endpoint:
     health:
       show-details: always
@@ -36,9 +36,14 @@ springdoc:
 
 security:
   jwt:
-    secret: "change-me-to-a-secure-key-with-at-least-32-bytes"
-    access-token-validity-seconds: 3600
+    secret: "change-me-to-a-secure-key-with-at-least-32-bytes-123456"
+    access-token-validity-seconds: 900
+    refresh-token-validity-seconds: 1209600
 
-logging:
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [traceId=%X{traceId}] - %msg%n"
+app:
+  auth:
+    cookie:
+      secure: false
+      same-site: Lax
+      domain:
+      refresh-max-age-seconds: 1209600
