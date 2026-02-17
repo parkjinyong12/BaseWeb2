@@ -26,6 +26,12 @@ import java.io.IOException;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final ObjectMapper objectMapper;
+
+    public SecurityConfig(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
         return http
@@ -78,6 +84,6 @@ public class SecurityConfig {
         response.setStatus(errorCode.getStatus().value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         ApiResponse<Void> body = ApiResponse.fail(ErrorResponse.of(errorCode, traceId));
-        response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+        response.getWriter().write(objectMapper.writeValueAsString(body));
     }
 }
