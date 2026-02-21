@@ -26,6 +26,13 @@ class SecurityTest {
             .andExpect(status().isUnauthorized());
     }
 
+
+    @Test
+    void versionApiWithoutTokenReturns200() throws Exception {
+        mockMvc.perform(get("/api/version"))
+            .andExpect(status().isOk());
+    }
+
     @Test
     void protectedApiWithTokenReturns200() throws Exception {
         String token = jwtService.createAccessToken("test-subject", java.util.List.of("ROLE_USER"));
