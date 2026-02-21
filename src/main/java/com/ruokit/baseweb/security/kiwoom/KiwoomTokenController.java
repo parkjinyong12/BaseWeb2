@@ -56,6 +56,6 @@ public class KiwoomTokenController {
         String normalizedTokenType = tokenType.substring(0, 1).toUpperCase() + tokenType.substring(1).toLowerCase();
         String bearerToken = normalizedTokenType + " " + body.token();
 
-        return ApiResponse.ok(new KiwoomTokenGetResponse(bearerToken, body.returnMsg()));
+        return ApiResponse.ok(new KiwoomTokenGetResponse(bearerToken, response.tokenSourceCode()));
     }
 }
