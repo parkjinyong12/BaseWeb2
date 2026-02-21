@@ -3,7 +3,6 @@ package com.example.baseweb.security;
 import com.example.baseweb.common.ApiResponse;
 import com.example.baseweb.common.ErrorCode;
 import com.example.baseweb.common.ErrorResponse;
-import com.example.baseweb.jwt.JwtAuthenticationFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
