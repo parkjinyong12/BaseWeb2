@@ -6,11 +6,14 @@ import com.example.baseweb.user.UserAccount;
 import com.example.baseweb.user.UserAccountRepository;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class AuthService {
@@ -19,17 +22,34 @@ public class AuthService {
     private final UserAccountRepository userAccountRepository;
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
+    private final PasswordEncoder passwordEncoder;
 
     public AuthService(
         AuthenticationManager authenticationManager,
         UserAccountRepository userAccountRepository,
         JwtService jwtService,
-        RefreshTokenService refreshTokenService
+        RefreshTokenService refreshTokenService,
+        PasswordEncoder passwordEncoder
     ) {
         this.authenticationManager = authenticationManager;
         this.userAccountRepository = userAccountRepository;
         this.jwtService = jwtService;
         this.refreshTokenService = refreshTokenService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    public void register(String email, String password) {
+        if (userAccountRepository.findByEmail(email).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already exists");
+        }
+
+        UserAccount user = UserAccount.builder()
+            .id(UUID.randomUUID())
+            .email(email)
+            .password(passwordEncoder.encode(password))
+            .role("ROLE_USER")
+            .build();
+        userAccountRepository.save(user);
     }
 
     public LoginResult login(String username, String password) {

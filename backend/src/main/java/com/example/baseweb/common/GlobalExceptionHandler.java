@@ -6,6 +6,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -19,6 +20,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
         return ResponseEntity.badRequest().body(new ApiErrorResponse("VALIDATION_ERROR", "Invalid request"));
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<ApiErrorResponse> handleStatusException(ResponseStatusException ex) {
+        String statusName = ex.getStatusCode().toString();
+        String message = ex.getReason() != null ? ex.getReason() : "Request failed";
+        return ResponseEntity.status(ex.getStatusCode())
+            .body(new ApiErrorResponse(statusName, message));
     }
 
     @ExceptionHandler(Exception.class)
