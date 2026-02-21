@@ -62,32 +62,6 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-def frontendDir = file("${rootDir}/../frontend")
-def frontendBuildDir = file("${frontendDir}/dist")
-
-tasks.register('frontendNpmCi', Exec) {
-    workingDir frontendDir
-    commandLine 'npm', 'ci'
-    inputs.file("${frontendDir}/package-lock.json")
-    inputs.file("${frontendDir}/package.json")
-}
-
-tasks.register('frontendBuild', Exec) {
-    dependsOn 'frontendNpmCi'
-    workingDir frontendDir
-    commandLine 'npm', 'run', 'build'
-    inputs.dir("${frontendDir}/src")
-    inputs.file("${frontendDir}/package.json")
-    outputs.dir(frontendBuildDir)
-}
-
-tasks.named('processResources') {
-    dependsOn 'frontendBuild'
-    from(frontendBuildDir) {
-        into 'static'
-    }
-}
-
 tasks.named('test') {
     useJUnitPlatform()
 }
