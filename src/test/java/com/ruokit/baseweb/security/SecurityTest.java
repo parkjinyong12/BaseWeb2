@@ -2,6 +2,7 @@ package com.ruokit.baseweb.security;
 
 import com.ruokit.baseweb.security.kiwoom.dto.KiwoomTokenProxyResponse;
 import com.ruokit.baseweb.security.kiwoom.dto.KiwoomTokenResponse;
+import com.ruokit.baseweb.security.kiwoom.dto.TokenSourceCode;
 import com.ruokit.baseweb.security.kiwoom.service.KiwoomTokenService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,8 @@ class SecurityTest {
                 "au10001",
                 null,
                 null,
-                new KiwoomTokenResponse("20991107083713", "bearer", "token", 0, "OK")
+                new KiwoomTokenResponse("20991107083713", "bearer", "token", 0, "OK"),
+                TokenSourceCode.ISSUED
             ));
 
         mockMvc.perform(post("/api/security/oauth2/token"))
@@ -81,12 +83,13 @@ class SecurityTest {
                 "au10001",
                 null,
                 null,
-                new KiwoomTokenResponse("20991107083713", "bearer", "token", 0, "OK")
+                new KiwoomTokenResponse("20991107083713", "bearer", "token", 0, "OK"),
+                TokenSourceCode.ISSUED
             ));
 
         mockMvc.perform(get("/api/security/oauth2/token"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.data.token").value("Bearer token"))
-            .andExpect(jsonPath("$.data.returnMsg").value("OK"));
+            .andExpect(jsonPath("$.data.tokenSourceCode").value(TokenSourceCode.ISSUED.name()));
     }
 }

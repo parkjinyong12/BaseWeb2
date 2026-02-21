@@ -4,6 +4,7 @@ public record KiwoomTokenProxyResponse(
     String apiId,
     String contYn,
     String nextKey,
-    KiwoomTokenResponse body
+    KiwoomTokenResponse body,
+    TokenSourceCode tokenSourceCode
 ) {
 }

@@ -2,6 +2,7 @@ package com.ruokit.baseweb.security.kiwoom.service;
 
 import com.ruokit.baseweb.security.kiwoom.config.KiwoomApiProperties;
 import com.ruokit.baseweb.security.kiwoom.dto.KiwoomTokenProxyResponse;
+import com.ruokit.baseweb.security.kiwoom.dto.TokenSourceCode;
 import com.ruokit.baseweb.security.kiwoom.entity.KiwoomToken;
 import com.ruokit.baseweb.security.kiwoom.repo.KiwoomTokenRepository;
 import java.time.Instant;
@@ -81,6 +82,7 @@ class KiwoomTokenServiceTest {
         assertThat(response.body()).isNotNull();
         assertThat(response.body().tokenType()).isEqualTo("bearer");
         assertThat(response.body().token()).startsWith("WQJCwyq");
+        assertThat(response.tokenSourceCode()).isEqualTo(TokenSourceCode.ISSUED);
         verify(repository).save(any(KiwoomToken.class));
         server.verify();
     }
@@ -104,5 +106,6 @@ class KiwoomTokenServiceTest {
         assertThat(response.body()).isNotNull();
         assertThat(response.body().token()).isEqualTo("stored-token");
         assertThat(response.body().returnCode()).isEqualTo(0);
+        assertThat(response.tokenSourceCode()).isEqualTo(TokenSourceCode.STORED);
     }
 }

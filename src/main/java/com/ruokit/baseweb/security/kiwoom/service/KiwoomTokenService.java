@@ -3,6 +3,7 @@ package com.ruokit.baseweb.security.kiwoom.service;
 import com.ruokit.baseweb.security.kiwoom.config.KiwoomApiProperties;
 import com.ruokit.baseweb.security.kiwoom.dto.KiwoomTokenProxyResponse;
 import com.ruokit.baseweb.security.kiwoom.dto.KiwoomTokenResponse;
+import com.ruokit.baseweb.security.kiwoom.dto.TokenSourceCode;
 import com.ruokit.baseweb.security.kiwoom.entity.KiwoomToken;
 import com.ruokit.baseweb.security.kiwoom.repo.KiwoomTokenRepository;
 import java.time.Instant;
@@ -21,6 +22,7 @@ import org.springframework.web.client.RestClient;
 
 @Service
 public class KiwoomTokenService {
+
 
     private static final DateTimeFormatter EXPIRES_DT_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
     private static final ZoneId KIWOOM_ZONE = ZoneId.of("Asia/Seoul");
@@ -84,7 +86,8 @@ public class KiwoomTokenService {
             headers.getFirst("api-id"),
             headers.getFirst("cont-yn"),
             headers.getFirst("next-key"),
-            response.getBody()
+            response.getBody(),
+            TokenSourceCode.ISSUED
         );
     }
 
@@ -124,7 +127,8 @@ public class KiwoomTokenService {
                 token.getToken(),
                 0,
                 "저장된 토큰"
-            )
+            ),
+            TokenSourceCode.STORED
         );
     }
 
