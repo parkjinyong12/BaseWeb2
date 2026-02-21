@@ -3,3 +3,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/oil_postgres
     username: baseweb
     password: baseweb
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
