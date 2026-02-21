@@ -1,7 +1,9 @@
 package com.ruokit.baseweb.security.kiwoom;
 
 import com.ruokit.baseweb.common.ApiResponse;
+import com.ruokit.baseweb.security.kiwoom.dto.KiwoomTokenGetResponse;
 import com.ruokit.baseweb.security.kiwoom.dto.KiwoomTokenProxyResponse;
+import com.ruokit.baseweb.security.kiwoom.dto.KiwoomTokenResponse;
 import com.ruokit.baseweb.security.kiwoom.service.KiwoomTokenService;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.slf4j.Logger;
@@ -39,7 +41,7 @@ public class KiwoomTokenController {
     }
 
     @GetMapping("/oauth2/token")
-    public ApiResponse<KiwoomTokenProxyResponse> getOrIssueAccessToken(
+    public ApiResponse<KiwoomTokenGetResponse> getOrIssueAccessToken(
         @Parameter(hidden = true)
         @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorization,
         @Parameter(hidden = true)
@@ -48,6 +50,12 @@ public class KiwoomTokenController {
         @RequestHeader(value = "next-key", required = false) String nextKey
     ) {
         log.info("API 진입: GET /api/security/oauth2/token hasAuthorization={}", authorization != null && !authorization.isBlank());
-        return ApiResponse.ok(kiwoomTokenService.getOrIssueAccessToken(authorization, contYn, nextKey));
+        KiwoomTokenProxyResponse response = kiwoomTokenService.getOrIssueAccessToken(authorization, contYn, nextKey);
+        KiwoomTokenResponse body = response.body();
+        String tokenType = body.tokenType();
+        String normalizedTokenType = tokenType.substring(0, 1).toUpperCase() + tokenType.substring(1).toLowerCase();
+        String bearerToken = normalizedTokenType + " " + body.token();
+
+        return ApiResponse.ok(new KiwoomTokenGetResponse(bearerToken, body.returnMsg()));
     }
 }
