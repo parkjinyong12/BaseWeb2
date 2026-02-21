@@ -1,6 +1,7 @@
 package com.example.baseweb.auth;
 
 import com.example.baseweb.auth.dto.LoginRequest;
+import com.example.baseweb.auth.dto.RegisterRequest;
 import com.example.baseweb.auth.dto.TokenResponse;
 import com.example.baseweb.auth.service.AuthService;
 import com.example.baseweb.auth.service.RefreshTokenService;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,6 +42,13 @@ public class AuthController {
         return ResponseEntity.ok()
             .header(HttpHeaders.SET_COOKIE, buildRefreshCookie(result.refreshToken(), cookieProperties.refreshMaxAgeSeconds()).toString())
             .body(result.tokenResponse());
+    }
+
+    @PostMapping("/register")
+    @Operation(summary = "Register a new user account")
+    public ResponseEntity<Void> register(@Valid @RequestBody RegisterRequest request) {
+        authService.register(request.email(), request.password());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/refresh")

@@ -68,6 +68,36 @@ class AuthControllerTest {
     }
 
     @Test
+    void registerCreatesUser() throws Exception {
+        String body = """
+            {"email":"new@test.com","password":"password123"}
+            """;
+
+        mockMvc.perform(post("/api/auth/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body))
+            .andExpect(status().isCreated());
+
+        UserAccount user = userAccountRepository.findByEmail("new@test.com").orElseThrow();
+        assertThat(passwordEncoder.matches("password123", user.getPassword())).isTrue();
+        assertThat(user.getRole()).isEqualTo("ROLE_USER");
+    }
+
+    @Test
+    void registerReturnsConflictWhenEmailAlreadyExists() throws Exception {
+        String body = """
+            {"email":"auth@test.com","password":"password123"}
+            """;
+
+        mockMvc.perform(post("/api/auth/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(body))
+            .andExpect(status().isConflict())
+            .andExpect(jsonPath("$.code").exists())
+            .andExpect(jsonPath("$.message").value("Email already exists"));
+    }
+
+    @Test
     void refreshRotatesTokenAndRevokesOldToken() throws Exception {
         String body = """
             {"username":"auth@test.com","password":"password"}
