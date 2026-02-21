@@ -1,4 +1,4 @@
-package com.example.baseweb.stock.dto;
+package com.example.baseweb.security.kiwoom.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

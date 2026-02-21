@@ -1,9 +1,9 @@
-package com.example.baseweb.stock.service;
+package com.example.baseweb.security.kiwoom.service;
 
-import com.example.baseweb.stock.config.KiwoomApiProperties;
-import com.example.baseweb.stock.dto.KiwoomTokenProxyResponse;
-import com.example.baseweb.stock.dto.KiwoomTokenRequest;
-import com.example.baseweb.stock.dto.KiwoomTokenResponse;
+import com.example.baseweb.security.kiwoom.config.KiwoomApiProperties;
+import com.example.baseweb.security.kiwoom.dto.KiwoomTokenProxyResponse;
+import com.example.baseweb.security.kiwoom.dto.KiwoomTokenRequest;
+import com.example.baseweb.security.kiwoom.dto.KiwoomTokenResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +15,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Service
-public class KiwoomStockService {
+public class KiwoomTokenService {
 
     private final RestClient restClient;
     private final KiwoomApiProperties properties;
 
-    public KiwoomStockService(RestClient.Builder restClientBuilder, KiwoomApiProperties properties) {
+    public KiwoomTokenService(RestClient.Builder restClientBuilder, KiwoomApiProperties properties) {
         this.restClient = restClientBuilder.baseUrl(properties.baseUrl()).build();
         this.properties = properties;
     }

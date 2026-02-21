@@ -1,8 +1,8 @@
-package com.example.baseweb.stock.service;
+package com.example.baseweb.security.kiwoom.service;
 
-import com.example.baseweb.stock.config.KiwoomApiProperties;
-import com.example.baseweb.stock.dto.KiwoomTokenProxyResponse;
-import com.example.baseweb.stock.dto.KiwoomTokenRequest;
+import com.example.baseweb.security.kiwoom.config.KiwoomApiProperties;
+import com.example.baseweb.security.kiwoom.dto.KiwoomTokenProxyResponse;
+import com.example.baseweb.security.kiwoom.dto.KiwoomTokenRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -18,16 +18,16 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 import static org.springframework.http.HttpMethod.POST;
 
-class KiwoomStockServiceTest {
+class KiwoomTokenServiceTest {
 
     private MockRestServiceServer server;
-    private KiwoomStockService service;
+    private KiwoomTokenService service;
 
     @BeforeEach
     void setUp() {
         RestClient.Builder builder = RestClient.builder();
         this.server = MockRestServiceServer.bindTo(builder).build();
-        this.service = new KiwoomStockService(builder, new KiwoomApiProperties("https://api.kiwoom.com", "au10001"));
+        this.service = new KiwoomTokenService(builder, new KiwoomApiProperties("https://api.kiwoom.com", "au10001"));
     }
 
     @Test

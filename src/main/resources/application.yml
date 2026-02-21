@@ -48,7 +48,7 @@ app:
       domain:
       refresh-max-age-seconds: 1209600
 
-  stock:
+  security:
     kiwoom:
       base-url: https://api.kiwoom.com
       api-id: au10001

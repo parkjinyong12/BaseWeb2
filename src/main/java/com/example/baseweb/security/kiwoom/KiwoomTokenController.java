@@ -1,9 +1,9 @@
-package com.example.baseweb.stock;
+package com.example.baseweb.security.kiwoom;
 
 import com.example.baseweb.common.ApiResponse;
-import com.example.baseweb.stock.dto.KiwoomTokenProxyResponse;
-import com.example.baseweb.stock.dto.KiwoomTokenRequest;
-import com.example.baseweb.stock.service.KiwoomStockService;
+import com.example.baseweb.security.kiwoom.dto.KiwoomTokenProxyResponse;
+import com.example.baseweb.security.kiwoom.dto.KiwoomTokenRequest;
+import com.example.baseweb.security.kiwoom.service.KiwoomTokenService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/stock")
-public class StockController {
+@RequestMapping("/api/security")
+public class KiwoomTokenController {
 
-    private final KiwoomStockService kiwoomStockService;
+    private final KiwoomTokenService kiwoomTokenService;
 
-    public StockController(KiwoomStockService kiwoomStockService) {
-        this.kiwoomStockService = kiwoomStockService;
+    public KiwoomTokenController(KiwoomTokenService kiwoomTokenService) {
+        this.kiwoomTokenService = kiwoomTokenService;
     }
 
     @PostMapping("/oauth2/token")
@@ -29,6 +29,6 @@ public class StockController {
         @RequestHeader(value = "cont-yn", required = false) String contYn,
         @RequestHeader(value = "next-key", required = false) String nextKey
     ) {
-        return ApiResponse.ok(kiwoomStockService.issueAccessToken(request, authorization, contYn, nextKey));
+        return ApiResponse.ok(kiwoomTokenService.issueAccessToken(request, authorization, contYn, nextKey));
     }
 }
