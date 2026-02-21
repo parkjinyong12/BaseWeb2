@@ -126,7 +126,7 @@ public class KiwoomTokenService {
                 token.getTokenType(),
                 token.getToken(),
                 0,
-                "저장된 토큰"
+                    "stored token"
             ),
             TokenSourceCode.STORED
         );
