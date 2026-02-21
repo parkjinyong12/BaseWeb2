@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/baseweb_dev
+    url: jdbc:postgresql://localhost:5432/oil_postgres
     username: baseweb
     password: baseweb

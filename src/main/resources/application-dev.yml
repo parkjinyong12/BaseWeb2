@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://dbms.ruokit.com:5432/baseweb
+    username: methere
+    password: wngus123
