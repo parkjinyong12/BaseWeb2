@@ -41,6 +41,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-api:0.12.7'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.7'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.7'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     // QueryDSL skeleton
     implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
