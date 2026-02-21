@@ -5,7 +5,7 @@ plugins {
     id 'war'
 }
 
-group = 'com.example'
+group = 'com.ruokit'
 version = '0.0.1-SNAPSHOT'
 description = 'BaseWeb Backend'
 
@@ -68,7 +68,7 @@ tasks.named('test') {
 
 springBoot {
     buildInfo()
-    mainClass = 'com.example.baseweb.BasewebBackendApplication'
+    mainClass = 'com.ruokit.baseweb.BasewebBackendApplication'
 }
 
 bootWar {
