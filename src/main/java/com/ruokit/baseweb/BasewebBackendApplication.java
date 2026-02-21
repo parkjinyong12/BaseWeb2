@@ -1,0 +1,14 @@
+package com.ruokit.baseweb;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+
+@SpringBootApplication
+@ConfigurationPropertiesScan
+public class BasewebBackendApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(BasewebBackendApplication.class, args);
+    }
+}
