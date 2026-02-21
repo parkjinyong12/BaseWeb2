@@ -123,7 +123,7 @@ public class KiwoomTokenService {
                 token.getTokenType(),
                 token.getToken(),
                 0,
-                "stored token"
+                "저장된 토큰"
             )
         );
     }
