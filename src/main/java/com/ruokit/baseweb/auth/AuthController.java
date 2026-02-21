@@ -15,6 +15,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 @Tag(name = "Auth")
 public class AuthController {
+
+    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
     private final AuthService authService;
     private final RefreshTokenService refreshTokenService;
@@ -38,6 +42,7 @@ public class AuthController {
     @PostMapping("/login")
     @Operation(summary = "Login with email(username field) and password")
     public ResponseEntity<TokenResponse> login(@Valid @RequestBody LoginRequest request) {
+        log.info("API 진입: POST /api/auth/login username={}", request.username());
         AuthService.LoginResult result = authService.login(request.username(), request.password());
         return ResponseEntity.ok()
             .header(HttpHeaders.SET_COOKIE, buildRefreshCookie(result.refreshToken(), cookieProperties.refreshMaxAgeSeconds()).toString())
@@ -47,6 +52,7 @@ public class AuthController {
     @PostMapping("/register")
     @Operation(summary = "Register a new user account")
     public ResponseEntity<Void> register(@Valid @RequestBody RegisterRequest request) {
+        log.info("API 진입: POST /api/auth/register email={}", request.email());
         authService.register(request.email(), request.password());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -54,6 +60,7 @@ public class AuthController {
     @PostMapping("/refresh")
     @Operation(summary = "Refresh access token using refresh token cookie")
     public ResponseEntity<TokenResponse> refresh(HttpServletRequest request) {
+        log.info("API 진입: POST /api/auth/refresh");
         String refreshToken = readCookie(request, "refreshToken");
         AuthService.LoginResult result = authService.refresh(refreshToken);
 
@@ -65,6 +72,7 @@ public class AuthController {
     @PostMapping("/logout")
     @Operation(summary = "Logout and revoke refresh token")
     public ResponseEntity<Void> logout(HttpServletRequest request) {
+        log.info("API 진입: POST /api/auth/logout");
         refreshTokenService.revoke(readCookie(request, "refreshToken"));
         return ResponseEntity.noContent()
             .header(HttpHeaders.SET_COOKIE, buildRefreshCookie("", 0).toString())

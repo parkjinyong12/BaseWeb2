@@ -1,6 +1,8 @@
 package com.ruokit.baseweb.api;
 
 import com.ruokit.baseweb.common.ApiResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.info.BuildProperties;
@@ -15,6 +17,8 @@ import java.util.Map;
 @RequestMapping("/api")
 public class SystemController {
 
+    private static final Logger log = LoggerFactory.getLogger(SystemController.class);
+
     private final String appName;
     private final ObjectProvider<BuildProperties> buildProperties;
 
@@ -28,11 +32,13 @@ public class SystemController {
 
     @GetMapping("/health")
     public ApiResponse<Map<String, String>> health() {
+        log.info("API 진입: GET /api/health");
         return ApiResponse.ok(Map.of("status", "OK"));
     }
 
     @GetMapping("/version")
     public ApiResponse<Map<String, String>> version() {
+        log.info("API 진입: GET /api/version");
         Map<String, String> payload = new LinkedHashMap<>();
         payload.put("name", appName);
         BuildProperties info = buildProperties.getIfAvailable();
