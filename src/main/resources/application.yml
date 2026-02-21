@@ -52,4 +52,6 @@ app:
     kiwoom:
       base-url: https://api.kiwoom.com
       api-id: au10001
-
+      app-key: ${KIWOOM_APP_KEY:}
+      secret-key: ${KIWOOM_SECRET_KEY:}
+      grant-type: client_credentials
