@@ -39,7 +39,7 @@ class KiwoomTokenServiceTest {
         this.repository = mock(KiwoomTokenRepository.class);
         this.service = new KiwoomTokenService(
             builder,
-            new KiwoomApiProperties("https://api.kiwoom.com", "au10001", "test-app", "test-secret", "client_credentials"),
+            new KiwoomApiProperties("https://api.kiwoom.com", "au10001", "kt00018", "test-app", "test-secret", "client_credentials"),
             repository
         );
     }

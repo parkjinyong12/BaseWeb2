@@ -65,7 +65,7 @@ public class KiwoomTokenService {
         ResponseEntity<KiwoomTokenResponse> response = restClient.post()
             .uri("/oauth2/token")
             .contentType(MediaType.APPLICATION_JSON)
-            .header("api-id", properties.apiId())
+            .header("api-id", properties.tokenApiId())
             .headers(headers -> {
                 if (StringUtils.hasText(authorization)) {
                     headers.set(HttpHeaders.AUTHORIZATION, authorization);
@@ -118,7 +118,7 @@ public class KiwoomTokenService {
 
     private KiwoomTokenProxyResponse toStoredTokenResponse(KiwoomToken token) {
         return new KiwoomTokenProxyResponse(
-            properties.apiId(),
+            properties.tokenApiId(),
             null,
             null,
             new KiwoomTokenResponse(
