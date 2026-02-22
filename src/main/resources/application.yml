@@ -51,7 +51,8 @@ app:
   security:
     kiwoom:
       base-url: https://api.kiwoom.com
-      api-id: au10001
+      token-api-id: au10001
+      account-evaluation-api-id: kt00018
       app-key: ${KIWOOM_APP_KEY:}
       secret-key: ${KIWOOM_SECRET_KEY:}
       grant-type: client_credentials
