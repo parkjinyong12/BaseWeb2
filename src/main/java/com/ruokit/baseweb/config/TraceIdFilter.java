@@ -4,6 +4,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -15,6 +17,7 @@ import java.util.UUID;
 public class TraceIdFilter extends OncePerRequestFilter {
 
     public static final String TRACE_ID = "traceId";
+    private static final Logger log = LoggerFactory.getLogger(TraceIdFilter.class);
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -29,9 +32,19 @@ public class TraceIdFilter extends OncePerRequestFilter {
 
         MDC.put(TRACE_ID, traceId);
         try {
+            logApiEntry(request);
             filterChain.doFilter(request, response);
         } finally {
             MDC.remove(TRACE_ID);
+        }
+    }
+
+    private void logApiEntry(HttpServletRequest request) {
+        String requestUri = request.getRequestURI();
+        if (requestUri != null && requestUri.startsWith("/api/")) {
+            String queryString = request.getQueryString();
+            String fullPath = queryString == null ? requestUri : requestUri + "?" + queryString;
+            log.info("API entry: method={}, path={}", request.getMethod(), fullPath);
         }
     }
 }
